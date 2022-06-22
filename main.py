@@ -8,7 +8,7 @@ def calc_net_pay() -> float:
     :return: pounds_after_tax
     """
     # Greet and introduce (https://manytools.org/hacker-tools/convert-images-to-ascii-art/go/)
-    print(welcome[1] + welcome[2])
+    print(welcome[0] + welcome[3] + welcome[4])
     # Get data from the user (START / FINISH TIMES + BREAK duration)
     user_start_time: str = input("START Time? (example 0400): ")
 
@@ -43,6 +43,11 @@ def calc_net_pay() -> float:
             print(f'You entered: {break_minutes_by_user}\nPlease enter 00, 15, 30, 45')
     
     # Pay rates
+    good_salary_entered = False
+    while not good_salary_entered:
+        user_salary = input('What is your hourly salary: ')
+
+
     available_pay_rates = (12.3, 13.8,)
     
     # Deductin 
