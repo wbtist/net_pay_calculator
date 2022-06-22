@@ -1,22 +1,26 @@
 from datetime import timedelta
 from greetings import *
-# Calculates net pay (float) based on given time data by user
+
+
+# Calculates net pay (float) based on given time data and hourly pay rate by the user
 # return: pounds_after_tax
 def calc_net_pay() -> float:
     """
-    Calculates net pay based on given time data by user
+    Calculates net pay (float) based on given time data and hourly pay rate by the user
     :return: pounds_after_tax
     """
     # Greet and introduce (https://manytools.org/hacker-tools/convert-images-to-ascii-art/go/)
     print(welcome[0] + welcome[3] + welcome[4])
+
     # Get data from the user (START / FINISH TIMES + BREAK duration)
-    user_start_time: str = input("START Time? (example 0400): ")
+    # TODO: Make sure user can only enter valid start times
+    user_start_time = input("START Time? (example 0400): ")
 
     if len(user_start_time) == 1:
         user_start_time = '0' + user_start_time + '00'
     elif len(user_start_time) == 3:
         user_start_time = '0' + user_start_time
-
+    # TODO: Make sure user can only enter valid finish times
     user_finish_time = input("FINISH Time? (example 1515): ")
 
     if len(user_finish_time) == 2:
@@ -28,29 +32,37 @@ def calc_net_pay() -> float:
     start_minute_by_user = int(user_start_time[2] + user_start_time[3])
     finish_hour_by_user = int(user_finish_time[0] + user_finish_time[1])
     finish_minute_by_user = int(user_finish_time[2] + user_finish_time[3])
-    breaks = ['00', '15', '30', '45']
+
+    # Possible break durations
+    break_durations = ['00', '15', '30', '45']
+
+    # Make sure user enters a correct break duration
     correct_break_entered = False
+    break_minutes_by_user = None
     while not correct_break_entered:
         break_minutes_by_user = (input('Break MINUTES? (00, 15, 30, 45) '))
         # Make sure input is only numbers
-        if break_minutes_by_user in breaks:
-              print(f'You had {break_minutes_by_user} minutes break')
-              if break_minutes_by_user == '00':
-                  print('Please make sure you had no break today')
-              break_minutes_by_user = int(break_minutes_by_user)
-              correct_break_entered = True
+        if break_minutes_by_user in break_durations:
+            print(f'You had {break_minutes_by_user} minutes break')
+            if break_minutes_by_user == '00':
+                print('Please make sure you had no break today')
+            break_minutes_by_user = int(break_minutes_by_user)
+            correct_break_entered = True
         else:
             print(f'You entered: {break_minutes_by_user}\nPlease enter 00, 15, 30, 45')
-    
-    # Pay rates
-    good_salary_entered = False
-    while not good_salary_entered:
-        user_salary = input('What is your hourly salary: ')
 
+    # Ask user for Pay rate
+    good_pay_rate_entered = False
+    rate_for_the_day = None
+    while not good_pay_rate_entered:
+        rate_for_the_day = input('What is your hourly salary: ')
+        try:
+            rate_for_the_day = float(rate_for_the_day)
+            good_pay_rate_entered = True
+        except ValueError:
+            print(f'You entered: {rate_for_the_day}\nPlease only enter numbers like: 12 or 12.3')
 
-    available_pay_rates = (12.3, 13.8,)
-    
-    # Deductin 
+    # Deduction
     deduction_percentage = 24
 
     start_hour_delta = timedelta(hours=start_hour_by_user, minutes=start_minute_by_user)
@@ -64,22 +76,18 @@ def calc_net_pay() -> float:
     paid_hours = total_worked_hours - break_duration
     to_display_paid_hours = str(paid_hours)
 
-    # Ask for pay rate
-    ask_for_rate = input('Did you drive class 1 today? (y/n): ')
-    ask_for_rate = ask_for_rate[0].lower()
-    if ask_for_rate == 'y':
-        rate_for_the_day = available_pay_rates[1]  # Float
-        # print('class 1 rate')
-    else:
-        rate_for_the_day = available_pay_rates[0]  # Float
-        
     # Hours
     paid_hours_string = str(paid_hours)
-    paid_hours_integer = int(paid_hours_string[:2])
+
+    if paid_hours_string[1] == ':':
+        paid_hours_integer = int(paid_hours_string[:1])
+        paid_minutes_integer = int(paid_hours_string[2:4])
+    else:
+        paid_hours_integer = int(paid_hours_string[:2])
+        paid_minutes_integer = int(paid_hours_string[3:5])
     whole_hours = paid_hours_integer
 
     # Minutes contribute to hours
-    paid_minutes_integer = int(paid_hours_string[3:5])
     if paid_minutes_integer == 15:
         minutes_to_hours = 0.25
     elif paid_minutes_integer == 30:
@@ -97,7 +105,10 @@ def calc_net_pay() -> float:
 
     pounds_after_tax = pounds_before_tax - (pounds_before_tax / 100 * deduction_percentage)
     pounds_after_tax = round(pounds_after_tax, 2)
-    print(f'\nBased on your inputs, here are your results:\nPaid hours: {to_display_paid_hours[:5]}')
+    print(results[0])
+    print(f'\nBased on your inputs, here are your results:\nPaid hours: {to_display_paid_hours}')
     print(f'Earnings before tax: £{pounds_before_tax}\nNet Earnings today: £{pounds_after_tax}')
     return pounds_after_tax
+
+
 calc_net_pay()
