@@ -9,7 +9,7 @@ def calc_net_pay() -> float:
     Calculates net pay (float) based on given time data and hourly pay rate by the user
     :return: pounds_after_tax
     """
-    # Greet and introduce (https://manytools.org/hacker-tools/convert-images-to-ascii-art/go/)
+    # Greet and introduce ascii source: (https://manytools.org/hacker-tools/convert-images-to-ascii-art/go/)
     print(welcome[0])
 
     # Get data from the user (START / FINISH TIMES + BREAK duration)
