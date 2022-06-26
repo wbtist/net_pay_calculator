@@ -10,7 +10,7 @@ def calc_net_pay() -> float:
     :return: pounds_after_tax
     """
     # Greet and introduce (https://manytools.org/hacker-tools/convert-images-to-ascii-art/go/)
-    print(welcome[0] + welcome[3] + welcome[4])
+    print(welcome[0])
 
     # Get data from the user (START / FINISH TIMES + BREAK duration)
     # TODO: Make sure user can only enter valid start times
