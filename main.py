@@ -108,6 +108,7 @@ def calc_net_pay() -> float:
     print(results[0])
     print(f'\nBased on your inputs, here are your results:\nPaid hours: {to_display_paid_hours}')
     print(f'Earnings before tax: £{pounds_before_tax}\nNet Earnings today: £{pounds_after_tax}')
+    print(welcome[1])
     return pounds_after_tax
 
 
