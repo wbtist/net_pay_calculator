@@ -49,7 +49,7 @@ def calc_net_pay() -> float:
             break_minutes_by_user = int(break_minutes_by_user)
             correct_break_entered = True
         else:
-            print(f'You entered: {break_minutes_by_user}\nPlease enter 00, 15, 30, 45')
+            print(f'You entered: {break_minutes_by_user}\nPlease enter 00, 15, 30, or 45')
 
     # Ask user for Pay rate
     good_pay_rate_entered = False
